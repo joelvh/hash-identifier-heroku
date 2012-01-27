@@ -5,6 +5,7 @@ import sys
 import Hash_ID
 
 app = Flask(__name__)
+app.debug = True
 
 @app.route("/")
 def hello():
@@ -12,20 +13,21 @@ def hello():
 
 @app.route("/<hash>")
 def detect(hash):
-    try:
-        old_stdout = sys.stdout
-        sys.stdout = mystdout = StringIO()
+    old_stdout = sys.stdout
+    sys.stdout = mystdout = StringIO()
 
-        Hash_ID.identify(hash)
-        
-        results = mystdout.getvalue()
-        mystdout.close()
+    Hash_ID.hash = hash
+    Hash_ID.identify()
+    
+    results = mystdout.getvalue()
+    mystdout.close()
 
-        sys.stdout = old_stdout
+    sys.stdout = old_stdout
+    
+    response = app.make_response(results)
+    response.headers["Content-type"] = "text/plain"
 
-        return results
-    except:
-        print "Unexpected error: ", sys.exc_info()[0]
+    return response
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
