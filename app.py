@@ -12,17 +12,20 @@ def hello():
 
 @app.route("/<hash>")
 def detect(hash):
-    old_stdout = sys.stdout
-    sys.stdout = mystdout = StringIO()
+    try:
+        old_stdout = sys.stdout
+        sys.stdout = mystdout = StringIO()
 
-    Hash_ID.identify(hash)
-    
-    results = mystdout.getvalue()
-    mystdout.close()
+        Hash_ID.identify(hash)
+        
+        results = mystdout.getvalue()
+        mystdout.close()
 
-    sys.stdout = old_stdout
+        sys.stdout = old_stdout
 
-    return results
+        return results
+    except:
+        print "Unexpected error: ", sys.exc_info()[0]
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
