@@ -1,4 +1,6 @@
-This project simply makes Hash ID into a web service that runs on Heroku. Simply append the hash after the "/" in the URL below:
+This project simply makes Hash ID into a web service that runs on Heroku. 
+
+Append any hash after the "/" in the URL below:
 
 http://hash-identifier.herokuapp.com/
 
